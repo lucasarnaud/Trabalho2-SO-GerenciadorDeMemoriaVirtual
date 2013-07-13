@@ -15,14 +15,14 @@ public class Main {
 		Scanner scanner = new Scanner(System.in);
 		
 		System.out.print("Informe número de processos: ");
-		
 		int numProcessos = scanner.nextInt();
 
 		System.out.print("Informe número de páginas dos processos: ");
-		
 		int numPaginas = scanner.nextInt();
-		
-		GerenciadorDeMemoria gerenciadorDeMemoria = new GerenciadorDeMemoria();
+
+		System.out.print("Informe capacidade da memória principal: ");
+		int capacidade = scanner.nextInt();
+		GerenciadorDeMemoria gerenciadorDeMemoria = new GerenciadorDeMemoria(capacidade);
 		
 		Processo[] processos = criarProcessos(numPaginas, gerenciadorDeMemoria,
 				numProcessos);
