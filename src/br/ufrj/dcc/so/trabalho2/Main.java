@@ -22,8 +22,10 @@ public class Main {
 
 		System.out.print("Informe capacidade da memória principal: ");
 		int capacidade = scanner.nextInt();
+		
 		System.out.print("Informe o working set limit: ");
 		int workingSetLimit = scanner.nextInt();
+		
 		GerenciadorDeMemoria gerenciadorDeMemoria = new GerenciadorDeMemoria(
 				capacidade, workingSetLimit);
 		

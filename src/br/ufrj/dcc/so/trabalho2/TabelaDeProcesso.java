@@ -15,21 +15,21 @@ public class TabelaDeProcesso extends HashMap<Integer, Integer> {
 
 	
 	@Override
-	public Integer put(Integer key, Integer value) {
-		if (value >= 0) {
+	public Integer put(Integer numPagina, Integer frameLivre) {
+		if (frameLivre >= 0) {
 			workingSetCount++;
 		}
-		return super.put(key, value);
+		return super.put(numPagina, frameLivre);
 	}
 	
 	
 	@Override
-	public Integer remove(Object key) {
-		Integer endereco = get(key);
+	public Integer remove(Object numPagina) {
+		Integer endereco = get(numPagina);
 		
 		if (endereco != null && endereco > 0) workingSetCount--;
 		
-		return super.remove(key);
+		return super.remove(numPagina);
 	}
 	
 	
