@@ -38,7 +38,7 @@ public class Processo extends Thread {
 			
 		}
 		
-		System.out.println(String.format("Processo %2d terminou.", pid));
+		System.out.println(String.format("Processo %s terminou.", toString()));
 	}
 
 
