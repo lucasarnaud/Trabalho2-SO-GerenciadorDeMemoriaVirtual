@@ -38,7 +38,7 @@ public class Processo extends Thread {
 			
 		}
 		
-		System.out.println(String.format("Processo %2d terminou.", pid));
+		System.out.println(String.format("Processo %s terminou.", toString()));
 	}
 
 
@@ -47,8 +47,46 @@ public class Processo extends Thread {
 		
 		int numPagina = random.nextInt(numPaginas);	
 		
-		gerenciadorDeMemoria.alocaPagina(pid, numPagina);
+		Pagina pagina = new Pagina(this, numPagina);
+		
+		gerenciadorDeMemoria.alocaPagina(pagina);
+	}
+	
+	
+	@Override
+	public String toString() {
+		return "P" + pid;
 	}
 	
 
+	public int getPid() {
+		return pid;
+	}
+
+
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + pid;
+		return result;
+	}
+
+
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Processo other = (Processo) obj;
+		if (pid != other.pid)
+			return false;
+		return true;
+	}
+	
 }
