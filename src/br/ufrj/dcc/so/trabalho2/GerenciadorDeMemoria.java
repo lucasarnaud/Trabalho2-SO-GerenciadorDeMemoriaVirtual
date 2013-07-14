@@ -2,10 +2,9 @@ package br.ufrj.dcc.so.trabalho2;
 
 import java.util.HashMap;
 import java.util.LinkedList;
+import java.util.SortedMap;
 
 public class GerenciadorDeMemoria {
-
-	
 	private HashMap<Integer, TabelaDeProcesso> tabelasDePaginas;
 	private LinkedList<Integer> framesLivres;
 	private final int workingSetLimit;
