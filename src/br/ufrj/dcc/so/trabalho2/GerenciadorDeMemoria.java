@@ -5,13 +5,17 @@ import java.util.LinkedList;
 
 public class GerenciadorDeMemoria {
 	private HashMap<Processo, TabelaDeProcesso> tabelasDePaginas;
+	
+	private LinkedList<Pagina> listaLRU;
 	private LinkedList<Integer> framesLivres;
+	
 	private final int workingSetLimit;
 	private int proximoEnderecoAreaDeSwap;
 	
 	
 	public GerenciadorDeMemoria(int capacidade, int workingSetLimit) {
 		this.tabelasDePaginas = new HashMap<Processo, TabelaDeProcesso>();
+		this.listaLRU = new LinkedList<Pagina>();
 		this.workingSetLimit = workingSetLimit;
 		
 		this.framesLivres = new LinkedList<Integer>();
@@ -28,7 +32,7 @@ public class GerenciadorDeMemoria {
 		System.out.println();
 		System.out.println(String.format("Processo %s solicitou a página %d.",
 				processo.toString(), pagina.getNumPagina()));
-		
+		System.out.println("Lista LRU: "+listaLRU);
 		TabelaDeProcesso tabelaDoProcesso = tabelasDePaginas.get(processo);
 		
 		if (tabelaDoProcesso == null) {
@@ -45,6 +49,10 @@ public class GerenciadorDeMemoria {
 			realizaAlocacao(pagina, processo, tabelaDoProcesso, enderecoPagina);
 		}
 		
+		listaLRU.remove(pagina);
+		listaLRU.addLast(pagina);
+		
+		System.out.println("Lista LRU: "+listaLRU);
 		System.out.println(tabelasDePaginas);
 		System.out.println(framesLivres);
 		System.out.println();
@@ -56,24 +64,36 @@ public class GerenciadorDeMemoria {
 		if (tabelaDoProcesso.getWorkingSetCount() < workingSetLimit) {
 			Integer frameLivre = framesLivres.poll();
 			if (frameLivre != null) {
-				tabelaDoProcesso.put(pagina, frameLivre);				
+				tabelaDoProcesso.put(pagina, frameLivre);
+				proximoEnderecoAreaDeSwap++;
 			}
 			else {
 				System.out.println("Memória cheia");
-				//TODO realizar swap out de pagina menos usada no geral
+				
+				Pagina paginaLRU = getPaginaLRU();
+				
+				TabelaDeProcesso tabelaDoProcessoLRU = tabelasDePaginas.get(paginaLRU.getProcesso());
+				Integer enderecoLRU = tabelaDoProcessoLRU.remove(paginaLRU);
+				
+				tabelaDoProcessoLRU.put(paginaLRU, enderecoAlocacao);				
+				tabelaDoProcesso.put(pagina, enderecoLRU);
 			}				
 		}
 		else {
 			System.out.println(String.format(
 					"Processo %s atingiu working set limit.", processo.toString()));
+			
 			Pagina paginaLRU = tabelaDoProcesso.getPaginaLRU();
+			listaLRU.remove(paginaLRU);
 			
-			//swap-out
 			Integer enderecoLRU = tabelaDoProcesso.remove(paginaLRU);
-			tabelaDoProcesso.put(paginaLRU, enderecoAlocacao);
 			
+			tabelaDoProcesso.put(paginaLRU, enderecoAlocacao);			
 			tabelaDoProcesso.put(pagina, enderecoLRU);
 		}
 	}
 
+	public Pagina getPaginaLRU() {
+		return listaLRU.poll();
+	}
 }

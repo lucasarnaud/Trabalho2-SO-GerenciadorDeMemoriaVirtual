@@ -18,25 +18,25 @@ public class TabelaDeProcesso extends HashMap<Pagina, Integer> {
 
 	
 	@Override
-	public Integer put(Pagina numPagina, Integer endereco) {
+	public Integer put(Pagina pagina, Integer endereco) {
 		if (endereco >= 0) {
 			workingSetCount++;
-			listaLRU.addLast(numPagina);
+			listaLRU.addLast(pagina);
 		}
-		return super.put(numPagina, endereco);
+		return super.put(pagina, endereco);
 	}
 	
 	
 	@Override
-	public Integer remove(Object numPagina) {
-		Integer endereco = get(numPagina);
+	public Integer remove(Object pagina) {
+		Integer endereco = get(pagina);
 		
 		if (endereco != null && endereco >= 0) {
 			workingSetCount--;
-			listaLRU.remove(numPagina);
+			listaLRU.remove(pagina);
 		}
 		
-		return super.remove(numPagina);
+		return super.remove(pagina);
 	}
 	
 	

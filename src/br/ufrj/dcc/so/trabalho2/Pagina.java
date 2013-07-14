@@ -17,7 +17,7 @@ public class Pagina {
 	
 	@Override
 	public String toString() {
-		return "Pg" + numPagina;
+		return processo + "-Pg" + numPagina;
 	}
 	
 	
@@ -32,12 +32,7 @@ public class Pagina {
 
 	@Override
 	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + numPagina;
-		result = prime * result
-				+ ((processo == null) ? 0 : processo.hashCode());
-		return result;
+		return numPagina;
 	}
 
 
